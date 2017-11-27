@@ -52,10 +52,16 @@ namespace Novel
 
 		Dictionary<string, NFunc> commands;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Novel.NovelRuntime"/> class.
+		/// </summary>
+		/// <param name="code">ソースコード．</param>
 		public NovelRuntime(string code)
 		{
 			// Null チェックをしつつ，コードの分析
 			runtimeCode = NParser.Parse(code ?? throw new ArgumentNullException(nameof(code)));
+
+			commands = new Dictionary<string, NFunc>();
 		}
 
 		/// <summary>
@@ -96,31 +102,61 @@ namespace Novel
 
 		}
 
-		private static void Run(INCode code, int num = 0)
+		/// <summary>
+		/// [内部的に使用するメソッド] 指定した実行可能コードを逐次実行します．
+		/// </summary>
+		/// <param name="code">実行するべきコード.</param>
+		/// <param name="num">実行する先頭の行番号.</param>
+		void Run(INCode code, int num = 0)
 		{
 			for (int i = num; i < code.Statements.Length; i++)
 			{
 				var statement = code.Statements[i];
-				Console.WriteLine($"{statement.SpriteTag}+{statement.CommandName} {string.Join(", ", statement.Arguments)}");
+
+				try
+				{
+					CallFunc(statement.SpriteTag, statement.CommandName, statement.Arguments);
+				}
+				catch(NRuntimeException ex)
+				{
+					// ランタイムエラー表示
+					Console.Error.WriteLine($"エラー(行 {i}, {statement.CommandName}): {ex.Message}");
+				}
+				catch(Exception ex)
+				{
+					// バグだ．
+					Console.Error.WriteLine($"内部エラー({ex.Message})\n{ex.StackTrace}");
+				}
+
+				//デバッグコードにつきコメントアウト
+				//Console.WriteLine($"{statement.SpriteTag}+{statement.CommandName} {string.Join(", ", statement.Arguments)}");
 			}
 		}
 
-		public static void Run(string code) => Run(NParser.Parse(code ?? throw new ArgumentNullException(nameof(code))));
+		string CallFunc(string spTag, string cmdName, params string[] args)
+		{
+			if (!commands.ContainsKey(cmdName))
+				throw new NRuntimeException($"Couldn't find the command '{cmdName}'.");
+			return commands[cmdName]?.Invoke(spTag, args);
+		}
 
-		public static void Run(string code, string label)
+		/// <summary>
+		/// Novel コードをコンパイルし，実行します．
+		/// </summary>
+		/// <param name="code">ソースコード．</param>
+		public void Run(string code) => Run(NParser.Parse(code ?? throw new ArgumentNullException(nameof(code))));
+
+		/// <summary>
+		/// Novel コードをコンパイルし，実行します．
+		/// </summary>
+		/// <param name="code">ソースコード．</param>
+		/// <param name="label">はじめに実行する場所のラベル．</param>
+		public void Run(string code, string label)
 		{
 			var c = NParser.Parse(code ?? throw new ArgumentNullException(nameof(code)));
 			if (!c.Labels.ContainsKey(label ?? throw new ArgumentNullException(nameof(label))))
 				throw new ArgumentException($"コード内にラベル {label} は存在しません．");
 			Run(c, c.Labels[label]);
 		}
-
-		void INRuntime.Run(string code) => Run(code);
-		void INRuntime.Run(string code, string label) => Run(code, label);
-
-
-
-
 	}
-
 }

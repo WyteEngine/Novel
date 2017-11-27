@@ -23,9 +23,12 @@ namespace NovelLang
 			WriteLine($"{Name} {Version}\n{Copyright}\n------------");
 			// バッファ
 			var codeList = new List<string>();
+
+			var runtime = new NovelRuntime("");
+			WriteLine("The Novel Runtime has been launched!");
 			string buf;
 			// .quit と入力したら，終了する
-			WriteLine(".quit: 終了\n.eof: スクリプトの終わり\n.undo: 前の行を元に戻す");
+			WriteLine(".quit: Terminate this REPL.\n.eof: Finish writing and run soon.\n.undo: Undo previous line of the buffer.");
 			while (true)
 			{
 				Write("> ");
@@ -35,7 +38,7 @@ namespace NovelLang
 					// 閉じる
 					case ".quit":
 						// 終える
-						WriteLine("さようなら．");
+						WriteLine("see you．");
 						return;
 					// 一行戻す
 					case ".undo":
@@ -54,7 +57,7 @@ namespace NovelLang
 						var code = string.Join("\n", codeList);
 						// バッファを空にする
 						codeList.Clear();
-						NovelRuntime.Run(code);
+						runtime.Run(code);
 						break;
 					default:
 						// テキストを積む
