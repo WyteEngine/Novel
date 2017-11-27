@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelLang", "NovelLang\NovelLang.csproj", "{012A961E-C2C8-46A2-897B-C7DD414FF495}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelLib", "NovelLib\NovelLib.csproj", "{C95DC3B1-13B8-4ADD-B701-D463568DA48B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{012A961E-C2C8-46A2-897B-C7DD414FF495}.Debug|x86.ActiveCfg = Debug|x86
+		{012A961E-C2C8-46A2-897B-C7DD414FF495}.Debug|x86.Build.0 = Debug|x86
+		{012A961E-C2C8-46A2-897B-C7DD414FF495}.Release|x86.ActiveCfg = Release|x86
+		{012A961E-C2C8-46A2-897B-C7DD414FF495}.Release|x86.Build.0 = Release|x86
+		{C95DC3B1-13B8-4ADD-B701-D463568DA48B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C95DC3B1-13B8-4ADD-B701-D463568DA48B}.Debug|x86.Build.0 = Debug|Any CPU
+		{C95DC3B1-13B8-4ADD-B701-D463568DA48B}.Release|x86.ActiveCfg = Release|Any CPU
+		{C95DC3B1-13B8-4ADD-B701-D463568DA48B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
