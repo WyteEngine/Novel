@@ -258,14 +258,19 @@ namespace Novel.Parsing
 				// バッファが空でない場合，データが残っているので加味
 				if (!string.IsNullOrEmpty(buffer.ToString()))
 				{
-					if (token == Token.LabelName)
+					switch (token)
 					{
-						labels.Add(buffer.ToString(), line);
+						case Token.Name:
+							comName = buffer.ToString();
+							break;
+						case Token.LabelName:
+							labels.Add(buffer.ToString(), line);
+							break;
+						default:
+							args.Add(buffer.ToString());
+							break;
 					}
-					else
-					{
-						args.Add(buffer.ToString());
-					}
+
 					buffer.Clear();
 				}
 
