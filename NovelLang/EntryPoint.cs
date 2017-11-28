@@ -24,15 +24,27 @@ namespace NovelLang
 			// バッファ
 			var codeList = new List<string>();
 
+			// ランタイム
 			var runtime = new NovelRuntime("");
+
+			#region コマンド定義
+			runtime.RegisterCommand("say", (s, a) =>
+			{
+				WriteLine($"{(!string.IsNullOrWhiteSpace(s) ? s + ": " : "")}{string.Join("", a)}");
+			}).RegisterCommand("input", (s, a) =>
+			{
+				return ReadLine();
+			});
+			#endregion
+
+
 			WriteLine("The Novel Runtime has been launched!");
-			string buf;
 			// .quit と入力したら，終了する
 			WriteLine(".quit: Terminate this REPL.\n.eof: Finish writing and run soon.\n.undo: Undo previous line of the buffer.");
 			while (true)
 			{
 				Write("> ");
-				buf = ReadLine();
+				string buf = ReadLine();
 				switch (buf.ToLower())
 				{
 					// 閉じる
@@ -58,6 +70,7 @@ namespace NovelLang
 						// バッファを空にする
 						codeList.Clear();
 						runtime.Run(code);
+						WriteLine();
 						break;
 					default:
 						// テキストを積む

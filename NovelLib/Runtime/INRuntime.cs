@@ -69,20 +69,24 @@ namespace Novel
 		/// </summary>
 		/// <param name="name">Name.</param>
 		/// <param name="command">Command.</param>
-		public void RegisterCommand(string name, NCommand command) => RegisterCommand(name, (s, a) =>
+		public NovelRuntime RegisterCommand(string name, NCommand command)
 		{
-			command(s, a);
-			return null;
-		});
-
+			RegisterCommand(name, (s, a) =>
+		   {
+			   command(s, a);
+			   return null;
+		   });
+			return this;
+		}
 		/// <summary>
 		/// 値を返すタイプのコマンドを登録します．
 		/// </summary>
 		/// <param name="name">Name.</param>
 		/// <param name="func">Func.</param>
-		public void RegisterCommand(string name, NFunc func)
+		public NovelRuntime RegisterCommand(string name, NFunc func)
 		{
 			commands[name] = func;
+			return this;
 		}
 
 		/// <summary>
