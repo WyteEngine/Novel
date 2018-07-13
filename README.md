@@ -1,24 +1,36 @@
 Novel Language
 =================
 
-<strong style="color: #ff0000">開発途上につき，実用はおすすめしません！</strong>
-
 Novel 言語は， .NET アプリケーションに組み込んで使用できる，カスタマイズ可能なスクリプティング言語およびエンジンです．
 
 次のような構文でHello worldを記述できます．
 
-```
+```novel
 #boot
 :Hello, world!!		// メッセージ文
 
 +say "Hello, world!!"	// コマンド文
 ```
 
+また，コード上からコマンドを自由に追加することができます．
+
+例:
+
+```cs
+var runtime = new NovelRuntime("");
+
+runtime.RegisterCommand("add", (s, a) => Console.WriteLine(int.Parse(a[0] + a[1])));
+```
+
+```novel
++add 4, 3 // 7と表示される
+```
+
 必要な要件
 ---------------
 
-- .NET Standard 1.6 互換の .NET プラットフォーム
-- Visual Studio 2017 または対応する MSBuild
+- .NET Standard 2.0 互換の .NET プラットフォーム
+- MSBuild
 
 ライセンス
 --------------
